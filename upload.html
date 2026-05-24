@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReadFlow - 분석 중</title>
+
+  <link rel="stylesheet" href="./css/common.css" />
+  <link rel="stylesheet" href="./css/upload.css" />
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <main class="upload-page">
+    <section class="upload-container">
+
+      <!-- 업로드한 파일 정보 박스 -->
+      <section class="file-info-box" id="fileInfoBox" data-status="loading">
+        <img
+          src="./assets/icons/file-text.svg"
+          alt="파일 아이콘"
+          class="file-icon"
+        />
+
+        <div class="file-text-area">
+          <p class="file-name" id="fileName">파일을 불러오는 중...</p>
+
+          <div class="upload-status">
+            <span class="status-dot"></span>
+            <span class="status-text" id="uploadStatusText">업로드 중</span>
+          </div>
+        </div>
+
+        <button type="button" class="reupload-button" id="reuploadButton">
+          다른 자료 업로드
+        </button>
+
+        <input
+          type="file"
+          id="fileInput"
+          accept=".pdf,.txt,.png,.jpg,.jpeg,image/*"
+          hidden
+        />
+      </section>
+
+      <!-- 분석 중 애니메이션 화면 -->
+    <section class="analyzing-canvas">
+        <img
+            src="./assets/icons/logo_text.svg"
+            alt="ReadFlow"
+            class="analyzing-logo"
+        />
+  
+        <p class="analyzing-message">파일을 분석 중입니다</p>
+    
+        <span class="floating-circle circle-1"></span>
+        <span class="floating-circle circle-2"></span>
+        <span class="floating-circle circle-3"></span>
+        <span class="floating-circle circle-4"></span>
+        <span class="floating-circle circle-5"></span>
+        <span class="floating-circle circle-6"></span>
+        <span class="floating-circle circle-7"></span>
+        <span class="floating-circle circle-8"></span>
+    </section>
+
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="./js/common.js"></script>
+  <script src="./js/upload.js"></script>
+</body>
+</html>
