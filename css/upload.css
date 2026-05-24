@@ -1,0 +1,309 @@
+body {
+    margin: 0;
+    background: #F8F9FF;
+  }
+  
+  .upload-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #F8F9FF;
+  }
+  
+  .upload-container {
+    width: 941px;
+    margin: 26px auto 0;
+  }
+  
+  /* =========================
+     업로드 파일 정보 박스
+  ========================= */
+  
+  .file-info-box {
+    position: relative;
+    width: 941px;
+    height: 104px;
+    border-radius: 12px;
+    border: 0.8px solid #CCC;
+    background: #FFF;
+    box-sizing: border-box;
+  }
+  
+  .file-icon {
+    position: absolute;
+    top: 29px;
+    left: 36px;
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+  }
+  
+  .file-text-area {
+    position: absolute;
+    top: 26px;
+    left: 117px;
+  }
+  
+  .file-name {
+    margin: 0;
+    color: #222;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+  
+  .upload-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  
+  .status-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+  }
+  
+  .status-text {
+    color: #222;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
+  .file-info-box[data-status="loading"] .status-dot {
+    background: #EBAC00;
+  }
+  
+  .file-info-box[data-status="complete"] .status-dot {
+    background: #27EB00;
+  }
+  
+  .file-info-box[data-status="fail"] .status-dot {
+    background: #EB2F00;
+  }
+  
+  .reupload-button {
+    position: absolute;
+    top: 32px;
+    right: 27px;
+  
+    width: 151px;
+    height: 40px;
+  
+    display: inline-flex;
+    padding: 10px 27px;
+    justify-content: center;
+    align-items: center;
+  
+    border-radius: 8px;
+    border: 1px solid #888;
+    background: #FFF;
+  
+    color: #888;
+    font-size: 14px;
+    font-weight: 500;
+  
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  
+  .reupload-button:hover {
+    border-color: #006FDE;
+    color: #006FDE;
+  }
+  
+/* =========================
+   분석 중 화면
+========================= */
+
+.analyzing-canvas {
+    position: relative;
+    width: 100%;
+  
+    /* 사용자가 스크롤하지 않고 볼 수 있도록 화면 높이에 맞춤 */
+    height: calc(100vh - 230px);
+    min-height: 520px;
+    max-height: 680px;
+  
+    overflow: hidden;
+    background: #F8F9FF;
+  }
+  
+  /* 가운데 로고 */
+  .analyzing-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  
+    width: 420px;
+    height: auto;
+  
+    opacity: 0.72;
+    transform: translate(-50%, -50%);
+    animation: logoPulse 2.4s ease-in-out infinite;
+  }
+  
+  /* 로고 아래 문구 */
+  .analyzing-message {
+    position: absolute;
+    top: calc(50% + 90px);
+    left: 50%;
+  
+    margin: 0;
+    transform: translateX(-50%);
+  
+    color: #006FDE;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  
+    animation: messagePulse 1.8s ease-in-out infinite;
+  }
+  
+  /* 공통 원 스타일 */
+  .floating-circle {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+  
+    background:
+      radial-gradient(circle at 68% 32%,
+        #D8E9FF 0%,
+        #8CBDF8 34%,
+        #347FE4 78%,
+        #2D6FE0 100%
+      );
+  
+    filter: drop-shadow(0 10px 18px rgba(48, 112, 224, 0.2));
+  }
+  
+  /* 원 위치: 화면 안에서 한눈에 보이도록 % 기준 배치 */
+  .circle-1 {
+    width: 58px;
+    height: 58px;
+    top: 12%;
+    left: 16%;
+    animation: floatUpDown 3.2s ease-in-out infinite alternate;
+  }
+  
+  .circle-2 {
+    width: 66px;
+    height: 66px;
+    top: 10%;
+    right: 26%;
+    animation: driftCircle 4.6s ease-in-out infinite alternate;
+  }
+  
+  .circle-3 {
+    width: 38px;
+    height: 38px;
+    top: 30%;
+    left: 47%;
+    animation: floatSmall 3.8s ease-in-out infinite alternate;
+  }
+  
+  .circle-4 {
+    width: 54px;
+    height: 54px;
+    top: 45%;
+    left: 6%;
+    animation: driftCircle 5.2s ease-in-out infinite alternate;
+  }
+  
+  .circle-5 {
+    width: 42px;
+    height: 42px;
+    top: 42%;
+    right: 4%;
+    animation: floatUpDown 3.6s ease-in-out infinite alternate;
+  }
+  
+  .circle-6 {
+    width: 60px;
+    height: 60px;
+    bottom: 16%;
+    left: 14%;
+    animation: floatSmall 4.3s ease-in-out infinite alternate;
+  }
+  
+  .circle-7 {
+    width: 56px;
+    height: 56px;
+    bottom: 22%;
+    right: 26%;
+    animation: driftCircle 5s ease-in-out infinite alternate;
+  }
+  
+  .circle-8 {
+    width: 40px;
+    height: 40px;
+    bottom: 10%;
+    right: 8%;
+    animation: floatUpDown 3.4s ease-in-out infinite alternate;
+  }
+  
+  /* 애니메이션 */
+  @keyframes floatUpDown {
+    0% {
+      transform: translateY(0) scale(1);
+    }
+  
+    100% {
+      transform: translateY(-28px) scale(1.08);
+    }
+  }
+  
+  @keyframes driftCircle {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+  
+    100% {
+      transform: translate(26px, -32px) rotate(25deg);
+    }
+  }
+  
+  @keyframes floatSmall {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+  
+    50% {
+      transform: translate(-18px, -24px) scale(1.12);
+    }
+  
+    100% {
+      transform: translate(22px, -34px) scale(0.95);
+    }
+  }
+  
+  @keyframes logoPulse {
+    0% {
+      opacity: 0.55;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  
+    50% {
+      opacity: 0.85;
+      transform: translate(-50%, -50%) scale(1.025);
+    }
+  
+    100% {
+      opacity: 0.55;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  
+  @keyframes messagePulse {
+    0% {
+      opacity: 0.45;
+    }
+  
+    50% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0.45;
+    }
+  }
