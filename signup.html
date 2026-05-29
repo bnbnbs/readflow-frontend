@@ -22,20 +22,20 @@
 
       <div class="social-login-group">
         <button type="button" class="social-btn">
-            <img src="assets/img/google_logo.png" alt="" class="social-icon">
-            <span>Google로 계속하기</span>
+          <img src="assets/img/google_logo.png" alt="" class="social-icon">
+          <span>Google로 계속하기</span>
         </button>
 
         <button type="button" class="social-btn">
-            <img src="assets/img/apple_logo.png" alt="" class="social-icon">
-            <span>Apple로 계속하기</span>
+          <img src="assets/img/apple_logo.png" alt="" class="social-icon">
+          <span>Apple로 계속하기</span>
         </button>
 
         <button type="button" class="social-btn">
-            <img src="assets/img/facebook_logo.png" alt="" class="social-icon">
-            <span>Facebook로 계속하기</span>
+          <img src="assets/img/facebook_logo.png" alt="" class="social-icon">
+          <span>Facebook로 계속하기</span>
         </button>
-        </div>
+      </div>
 
       <div class="divider">
         <span></span>
@@ -47,9 +47,10 @@
         <input type="email" placeholder="이메일" class="auth-input">
 
         <div class="password-field">
-          <input type="password" placeholder="비밀번호" class="auth-input">
+          <input type="password" placeholder="비밀번호" class="auth-input password-input">
+
           <button type="button" class="password-toggle" aria-label="비밀번호 보기">
-            <span>◎</span>
+            <img src="assets/icons/eye-off.svg" alt="" class="password-icon">
           </button>
         </div>
 
@@ -66,6 +67,30 @@
       계속 진행하면 이용 약관 및 개인정보 처리방침에 동의하는 것으로 간주됩니다.
     </p>
   </main>
+
+  <script>
+    const passwordToggles = document.querySelectorAll(".password-toggle");
+
+    passwordToggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const passwordField = toggle.closest(".password-field");
+        const passwordInput = passwordField.querySelector(".password-input");
+        const passwordIcon = toggle.querySelector(".password-icon");
+
+        const isPasswordHidden = passwordInput.type === "password";
+
+        passwordInput.type = isPasswordHidden ? "text" : "password";
+        passwordIcon.src = isPasswordHidden
+          ? "assets/icons/eye.svg"
+          : "assets/icons/eye-off.svg";
+
+        toggle.setAttribute(
+          "aria-label",
+          isPasswordHidden ? "비밀번호 숨기기" : "비밀번호 보기"
+        );
+      });
+    });
+  </script>
 
   <script src="js/common.js"></script>
 </body>
