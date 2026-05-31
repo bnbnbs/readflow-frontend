@@ -1,0 +1,242 @@
+body {
+    margin: 0;
+    background: #F8F9FF;
+  }
+  
+  .library-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #F8F9FF;
+  }
+  
+  .library-container {
+    width: min(1071px, calc(100% - 48px));
+    margin: 68px auto 0;
+  }
+  
+  /* 상단 제목 + 정렬 */
+  .library-header {
+    width: 940px;
+    margin: 0 auto;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .library-title {
+    margin: 0;
+  
+    color: #222;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.36px;
+  }
+  
+  /* 정렬 박스 */
+  .sort-box {
+    width: 138.204px;
+    height: 42px;
+  }
+  
+  .sort-select {
+    width: 138.204px;
+    height: 42px;
+  
+    padding: 10px 40px 10px 16px;
+  
+    border-radius: 8px;
+    border: 1px solid #888;
+    background-color: #F8F9FF;
+  
+    color: #888;
+    text-align: center;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.15px;
+  
+    cursor: pointer;
+    box-sizing: border-box;
+  
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23888' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 14px 8px;
+  }
+  
+  /* 카드 그리드 */
+  .record-grid {
+    margin-top: 60px;
+  
+    display: grid;
+    grid-template-columns: repeat(3, 308px);
+    column-gap: 16px;
+    row-gap: 20px;
+  
+    justify-content: center;
+  }
+  
+  /* 학습기록 카드 */
+  .record-card {
+    display: flex;
+    width: 308px;
+    height: 384px;
+    flex-direction: column;
+    justify-content: flex-start;
+  
+    border-radius: 12px;
+    border: 0.8px solid #CCC;
+    background: #FFF;
+  
+    overflow: hidden;
+    box-sizing: border-box;
+  
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  
+  .record-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 103, 219, 0.12);
+  }
+  
+  /* 이미지 썸네일 */
+  .record-thumbnail {
+    position: relative;
+  
+    width: 308px;
+    height: 232px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    border-radius: 12px 12px 0 0;
+    background: #EAF3FF;
+  
+    overflow: hidden;
+  }
+  
+  .record-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* 기본 썸네일: 사용자가 수정 전이면 로고 */
+  .record-thumbnail.default-thumbnail {
+    background: linear-gradient(135deg, #F8F9FF 0%, #EAF3FF 100%);
+  }
+  
+  .record-thumbnail.default-thumbnail img {
+    width: 160px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.9;
+  }
+  
+  /* 파일명 */
+  .record-title {
+    margin: 24px 20px 0;
+  
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 125%;
+    letter-spacing: -0.24px;
+  
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  /* 진행률 텍스트 */
+  .record-progress-row {
+    margin: 28px 20px 0;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .record-progress-label,
+  .record-progress-percent {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.15px;
+  }
+  
+  /* 진행률 바 */
+  .record-progress-bar {
+    width: 268px;
+    height: 10px;
+  
+    margin: 12px 20px 0;
+  
+    border-radius: 100px;
+    background: #F4F4F4;
+  
+    overflow: hidden;
+  }
+  
+  .record-progress-fill {
+    height: 10px;
+  
+    border-radius: 100px;
+    background: #0067DB;
+  }
+  
+  /* 반응형 */
+  @media (max-width: 1100px) {
+    .library-header {
+      width: 624px;
+    }
+  
+    .record-grid {
+      grid-template-columns: repeat(2, 308px);
+    }
+  }
+  
+  @media (max-width: 760px) {
+    .library-container {
+      width: calc(100% - 40px);
+      margin-top: 40px;
+    }
+  
+    .library-header {
+      width: 100%;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .record-grid {
+      grid-template-columns: 1fr;
+      justify-content: stretch;
+    }
+  
+    .record-card {
+      width: 100%;
+    }
+  
+    .record-thumbnail {
+      width: 100%;
+    }
+  
+    .record-progress-bar {
+      width: calc(100% - 40px);
+    }
+  }
