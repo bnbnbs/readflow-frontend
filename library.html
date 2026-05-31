@@ -1,11 +1,41 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ReadFlow</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReadFlow - 학습기록</title>
 
-  <link rel="stylesheet" href="css/common.css">
-  
+  <link rel="stylesheet" href="./css/common.css" />
+  <link rel="stylesheet" href="./css/library.css" />
 </head>
+
+<body>
+  <div id="navbar"></div>
+
+  <main class="library-page">
+    <section class="library-container">
+
+      <div class="library-header">
+        <h1 class="library-title">학습기록</h1>
+
+        <div class="sort-box">
+          <select id="sortSelect" class="sort-select">
+            <option value="progress">진행률순</option>
+            <option value="name">이름순</option>
+          </select>
+        </div>
+      </div>
+
+      <section class="record-grid" id="recordGrid">
+        <!-- JS에서 카드 렌더링 -->
+      </section>
+
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="./js/common.js"></script>
+  <script src="./js/library.js"></script>
+</body>
 </html>
