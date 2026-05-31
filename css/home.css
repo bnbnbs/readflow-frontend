@@ -1,0 +1,405 @@
+/* =========================
+   Home Page
+========================= */
+
+.home-page {
+  width: 100%;
+  background: #f7f9ff;
+}
+
+/* =========================
+   Hero Section
+========================= */
+
+.home-hero {
+  width: 100%;
+  padding: 110px 0 74px;
+}
+
+.home-hero-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.hero-text-area h1 {
+  margin: 0;
+
+  font-size: 48px;
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -1.8px;
+  color: #111111;
+}
+
+.hero-text-area p {
+  margin: 24px 0 0;
+
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  color: #5b6576;
+}
+
+.hero-button-group {
+  margin-top: 48px;
+  display: flex;
+  gap: 16px;
+}
+
+.btn-primary,
+.btn-outline {
+  width: 150px;
+  height: 42px;
+  border-radius: 7px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.btn-primary {
+  background: #030313;
+  border: 1px solid #030313;
+  color: #ffffff;
+}
+
+.btn-outline {
+  background: #ffffff;
+  border: 1px solid #555555;
+  color: #111111;
+}
+
+.hero-image-area {
+  position: relative;
+  width: 480px;
+  height: 300px;
+
+  border-radius: 20px;
+  border: 0.8px solid #cccccc;
+  background: radial-gradient(
+    353.14% 73.13% at 35% 50%,
+    #eff0ff 0%,
+    #94bcf1 20.02%,
+    #0067db 100%
+  );
+  box-shadow: 0 4px 4px 0 rgba(68, 68, 68, 0.15);
+
+  overflow: hidden;
+}
+
+/* 공 장식 묶음 */
+.hero-image-area .hero-balls {
+  position: absolute;
+  left: 18px;
+  top: 20px;
+
+  width: 440px;
+  height: auto;
+  object-fit: contain;
+
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 아이 캐릭터 */
+.hero-image-area .hero-character {
+  position: absolute;
+  left: 0px;
+  bottom: 0;
+
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ReadFlow 흰색 글자 */
+.hero-image-area .hero-logo-text {
+  position: absolute;
+  right:20px;
+  top: 65px;
+
+  width: 420px;
+  height: auto;
+  object-fit: contain;
+
+  z-index: 2;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* =========================
+   Upload Section
+========================= */
+
+.home-upload {
+  width: 100%;
+  padding: 16px 0 80px;
+}
+
+.upload-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 36px;
+
+  background: #ffffff;
+  border: 2px solid #0b7cff;
+  border-radius: 20px;
+}
+
+.upload-box {
+  min-height: 350px;
+  padding: 40px 24px;
+
+  border: 1px solid #d2d6e1;
+  border-radius: 18px;
+  background: #fbfbff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 28px;
+}
+
+.upload-box h2 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #222222;
+}
+
+.upload-box p {
+  margin: 12px 0 32px;
+
+  font-size: 15px;
+  font-weight: 500;
+  color: #404040;
+}
+
+.file-select-btn {
+  width: 150px;
+  height: 42px;
+  border-radius: 7px;
+  border: 1px solid #333333;
+  background: #ffffff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.upload-tip {
+  margin-top: 20px;
+  padding: 28px 48px;
+
+  border-radius: 18px;
+  background: #f7f8ff;
+}
+
+.upload-tip h3 {
+  margin: 0 0 16px;
+
+  font-size: 17px;
+  font-weight: 800;
+  color: #111111;
+}
+
+.upload-tip ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.upload-tip li {
+  margin-bottom: 7px;
+
+  font-size: 15px;
+  line-height: 1.5;
+  color: #222222;
+}
+
+/* =========================
+   CTA Section
+========================= */
+
+.home-cta {
+  width: 100%;
+  padding: 12px 0 100px;
+}
+
+.cta-card {
+  max-width: 900px;
+  min-height: 126px;
+  margin: 0 auto;
+  padding: 32px 44px;
+
+  border-radius: 20px;
+  background: #eef1ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.cta-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.cta-icon {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+}
+
+.cta-text h2 {
+  margin: 0;
+
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #181818;
+}
+
+.cta-text p {
+  margin: 10px 0 0;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #555d6e;
+}
+
+.cta-btn {
+  width: 150px;
+  height: 42px;
+  border-radius: 7px;
+  background: #0b74e5;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+
+  flex-shrink: 0;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 900px) {
+  .home-hero {
+    padding: 90px 0 64px;
+  }
+
+  .home-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .hero-text-area h1 {
+    font-size: 40px;
+  }
+
+  .upload-card,
+  .cta-card {
+    max-width: calc(100% - 48px);
+  }
+
+  .cta-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cta-left {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-hero {
+    padding: 72px 0 52px;
+  }
+
+  .home-hero-inner {
+    padding: 0 20px;
+  }
+
+  .hero-text-area h1 {
+    font-size: 34px;
+  }
+
+  .hero-text-area p {
+    font-size: 16px;
+  }
+
+  .hero-button-group {
+    flex-direction: column;
+    margin-top: 36px;
+  }
+
+  .btn-primary,
+  .btn-outline,
+  .file-select-btn,
+  .cta-btn {
+    width: 100%;
+  }
+
+  .upload-card {
+    max-width: calc(100% - 40px);
+    padding: 20px;
+  }
+
+  .upload-box {
+    min-height: 300px;
+    padding: 32px 20px;
+    text-align: center;
+  }
+
+  .upload-box h2 {
+    font-size: 18px;
+  }
+
+  .upload-tip {
+    padding: 24px;
+  }
+
+  .cta-card {
+    max-width: calc(100% - 40px);
+    padding: 28px 24px;
+  }
+
+  .cta-left {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

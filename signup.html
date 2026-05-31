@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 | ReadFlow</title>
+
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/signup.css">
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <main class="auth-page">
+    <section class="auth-card" aria-label="회원가입">
+      <img src="assets/icons/logo-full.svg" alt="ReadFlow" class="auth-logo">
+
+      <h1 class="auth-title">
+        회원가입을 진행해주세요
+      </h1>
+
+      <div class="social-login-group">
+        <button type="button" class="social-btn">
+          <img src="assets/img/google_logo.png" alt="" class="social-icon">
+          <span>Google로 계속하기</span>
+        </button>
+
+        <button type="button" class="social-btn">
+          <img src="assets/img/apple_logo.png" alt="" class="social-icon">
+          <span>Apple로 계속하기</span>
+        </button>
+
+        <button type="button" class="social-btn">
+          <img src="assets/img/facebook_logo.png" alt="" class="social-icon">
+          <span>Facebook로 계속하기</span>
+        </button>
+      </div>
+
+      <div class="divider">
+        <span></span>
+        <p>or</p>
+        <span></span>
+      </div>
+
+      <form class="auth-form">
+        <input type="email" placeholder="이메일" class="auth-input">
+
+        <div class="password-field">
+          <input type="password" placeholder="비밀번호" class="auth-input password-input">
+
+          <button type="button" class="password-toggle" aria-label="비밀번호 보기">
+            <img src="assets/icons/eye-off.svg" alt="" class="password-icon">
+          </button>
+        </div>
+
+        <button type="submit" class="auth-submit">계속</button>
+      </form>
+
+      <p class="auth-switch signup-switch">
+        이미 계정이 있으신가요?
+        <a href="login.html">로그인하기</a>
+      </p>
+    </section>
+
+    <p class="auth-notice">
+      계속 진행하면 이용 약관 및 개인정보 처리방침에 동의하는 것으로 간주됩니다.
+    </p>
+  </main>
+
+  <script>
+    const passwordToggles = document.querySelectorAll(".password-toggle");
+
+    passwordToggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const passwordField = toggle.closest(".password-field");
+        const passwordInput = passwordField.querySelector(".password-input");
+        const passwordIcon = toggle.querySelector(".password-icon");
+
+        const isPasswordHidden = passwordInput.type === "password";
+
+        passwordInput.type = isPasswordHidden ? "text" : "password";
+        passwordIcon.src = isPasswordHidden
+          ? "assets/icons/eye.svg"
+          : "assets/icons/eye-off.svg";
+
+        toggle.setAttribute(
+          "aria-label",
+          isPasswordHidden ? "비밀번호 숨기기" : "비밀번호 보기"
+        );
+      });
+    });
+  </script>
+
+  <script src="js/common.js"></script>
+</body>
+</html>
