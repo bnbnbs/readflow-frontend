@@ -367,7 +367,6 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 
   --reader-font-size: 22px;
-  --highlight-color: rgba(251, 222, 132, 0.25);
 }
 
 .reader-topbar {
@@ -702,4 +701,53 @@ body {
   color: #FFF;
   border-color: #0067DB;
   box-shadow: 0 4px 10px rgba(0, 103, 219, 0.22);
+}
+.sentence {
+  font-size: inherit;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.sentence.active {
+  background: rgba(0, 103, 219, 0.15);
+  padding-left: 8px;
+}
+/* 읽기 영역 전체 */
+#readerBox {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #222;
+  font-weight: 400;
+}
+
+/* 문장 */
+.sentence {
+  margin-bottom: 16px;
+  letter-spacing: -0.2px;
+}
+
+/* 하이라이트 */
+
+.sentence.active {
+  background-color: var(--highlight-color, rgba(0, 103, 219, 0.15));
+  border-radius: 6px;
+  padding: 2px 4px;
+  transition: 0.2s;
+}
+
+/* 단어 강조 (진하게) */
+.word.active-word {
+  background-color: rgba(0, 103, 219, 0.4);
+  border-radius: 4px;
+}
+#readerContent {
+  font-size: var(--reader-font-size);
+}
+
+.sentence {
+  font-size: inherit !important;
+}
+
+.word {
+  font-size: inherit !important;
 }
