@@ -1,73 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const fileInfoBox = document.getElementById("fileInfoBox");
-    const fileName = document.getElementById("fileName");
-    const uploadStatusText = document.getElementById("uploadStatusText");
-    const reuploadButton = document.getElementById("reuploadButton");
-    const fileInput = document.getElementById("fileInput");
-  
-    const savedFileData = JSON.parse(localStorage.getItem("readflowUploadData"));
-  
-    if (savedFileData && savedFileData.fileName) {
-      updateFileStatus(savedFileData.fileName, "loading");
-  
-      // 프론트 목업용 분석 시간
-      setTimeout(() => {
-        completeUpload(savedFileData.fileName);
-      }, 3500);
-    } else {
-      updateFileStatus("파일을 선택해 주세요", "loading");
-    }
-  
-    if (reuploadButton && fileInput) {
-      reuploadButton.addEventListener("click", () => {
-        fileInput.click();
-      });
-  
-      fileInput.addEventListener("change", () => {
-        const selectedFile = fileInput.files[0];
-  
-        if (!selectedFile) return;
-  
-        localStorage.setItem("readflowUploadData", JSON.stringify({
-          fileName: selectedFile.name,
-          status: "loading"
-        }));
-  
-        updateFileStatus(selectedFile.name, "loading");
-  
+  console.log("✅ upload.js 실행됨");
+
+  const fileInfoBox = document.getElementById("fileInfoBox");
+  const fileName = document.getElementById("fileName");
+  const uploadStatusText = document.getElementById("uploadStatusText");
+  const reuploadButton = document.getElementById("reuploadButton");
+  const fileInput = document.getElementById("fileInput");
+
+  if (reuploadButton && fileInput) {
+    reuploadButton.addEventListener("click", () => {
+      fileInput.click();
+    });
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener("change", async () => {
+      const selectedFile = fileInput.files[0];
+      if (!selectedFile) return;
+
+      updateFileStatus(selectedFile.name, "loading");
+
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("user_id", "test_user");
+
+      try {
+        const res = await fetch(
+          "https://readflow-backend-server-904179417673.asia-northeast3.run.app/api/resources",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`서버 오류: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log("🔥 API 결과:", data);
+
+        // ✅ 핵심: resource_id만 저장
+        localStorage.setItem("resource_id", data.resource_id);
+
+        localStorage.setItem(
+          "readflowUploadData",
+          JSON.stringify({
+            fileName: selectedFile.name,
+            status: "complete",
+          })
+        );
+
+        updateFileStatus(selectedFile.name, "complete");
+
         setTimeout(() => {
-          completeUpload(selectedFile.name);
-        }, 3500);
-  
-        fileInput.value = "";
-      });
-    }
-  
-    function updateFileStatus(name, status) {
-      fileName.textContent = name;
-      fileInfoBox.dataset.status = status;
-  
-      if (status === "loading") {
-        uploadStatusText.textContent = "업로드 중";
+          window.location.href = "./reading.html";
+        }, 500);
+
+      } catch (err) {
+        console.error("❌ 업로드 실패:", err);
+        updateFileStatus(selectedFile.name, "fail");
       }
-  
-      if (status === "complete") {
-        uploadStatusText.textContent = "업로드 완료";
-      }
-  
-      if (status === "fail") {
-        uploadStatusText.textContent = "업로드 실패";
-      }
-    }
-  
-    function completeUpload(name) {
-      localStorage.setItem("readflowUploadData", JSON.stringify({
-        fileName: name,
-        status: "complete"
-      }));
-  
-      updateFileStatus(name, "complete");
-  
-      window.location.href = "./reading.html";
-    }
-  });
+    });
+  }
+
+  function updateFileStatus(name, status) {
+    if (!fileName || !fileInfoBox || !uploadStatusText) return;
+
+    fileName.textContent = name;
+    fileInfoBox.dataset.status = status;
+
+    uploadStatusText.textContent =
+      status === "loading" ? "업로드 중" :
+      status === "complete" ? "업로드 완료" :
+      "업로드 실패";
+  }
+});

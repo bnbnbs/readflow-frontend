@@ -1,205 +1,260 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const fileInfoBox = document.getElementById("fileInfoBox");
+  console.log("✅ reading.js 실행");
+
   const fileName = document.getElementById("fileName");
   const uploadStatusText = document.getElementById("uploadStatusText");
+  const readerContent = document.getElementById("readerContent");
+  const tocList = document.getElementById("tocList");
+  const playButton = document.getElementById("playButton");
 
-  const reuploadButton = document.getElementById("reuploadButton");
-  const fileInput = document.getElementById("fileInput");
+  const progressBar = document.getElementById("audioProgress");
+  const currentTimeEl = document.getElementById("currentTime");
+  const totalTimeEl = document.getElementById("totalTime");
+  const volumeRange = document.getElementById("volumeRange");
+  const progressFill = document.getElementById("progressFill");
 
+  // 🔥 글자 크기
   const fontMinus = document.getElementById("fontMinus");
   const fontPlus = document.getElementById("fontPlus");
   const fontSizeValue = document.getElementById("fontSizeValue");
 
-  const speedMinus = document.getElementById("speedMinus");
-  const speedPlus = document.getElementById("speedPlus");
-  const speedValue = document.getElementById("speedValue");
-  const topSpeedValue = document.getElementById("topSpeedValue");
-
-  const readerBox = document.getElementById("readerBox");
-  const colorButtons = document.querySelectorAll(".color-circle");
-
-  const playButton = document.getElementById("playButton");
-  const audioProgress = document.getElementById("audioProgress");
-  const volumeRange = document.getElementById("volumeRange");
-  const playerSpeedButtons = document.querySelectorAll(".player-speed-button");
-
-  let fontSize = 22;
-  let readingSpeed = 1.0;
+  let audio = null;
   let isPlaying = false;
+  let sentencesData = [];
+  let timestamps = [];
 
+  let fontSize = 22; // 🔥 기본값
+
+  // =========================
+  // 🔥 기본 폰트 설정 (핵심)
+  // =========================
+  function applyFontSize() {
+    fontSizeValue.textContent = fontSize;
+  
+    const reader = document.getElementById("readerContent");
+  
+    // 🔥 여기 핵심
+    reader.style.fontSize = fontSize + "px";
+  }
+
+  applyFontSize(); // 최초 적용
+
+  fontMinus?.addEventListener("click", () => {
+    if (fontSize > 12) {
+      fontSize--;
+      applyFontSize();
+    }
+  });
+
+  fontPlus?.addEventListener("click", () => {
+    if (fontSize < 40) {
+      fontSize++;
+      applyFontSize();
+    }
+  });
+
+  // =========================
+  // 파일명
+  // =========================
   const savedFileData = JSON.parse(localStorage.getItem("readflowUploadData"));
 
   if (savedFileData) {
-    updateFileStatus(savedFileData.fileName, savedFileData.status);
-  } else {
-    updateFileStatus("우주의 모든 것.pdf", "complete");
+    fileName.textContent = savedFileData.fileName;
+    uploadStatusText.textContent =
+      savedFileData.status === "complete" ? "업로드 완료" : "업로드 중";
   }
 
-  if (reuploadButton && fileInput) {
-    reuploadButton.addEventListener("click", () => {
-      fileInput.click();
-    });
+  // =========================
+  // 데이터 불러오기
+  // =========================
+  const resourceId = localStorage.getItem("resource_id");
 
-    fileInput.addEventListener("change", () => {
-      const selectedFile = fileInput.files[0];
-
-      if (!selectedFile) return;
-
-      localStorage.setItem("readflowUploadData", JSON.stringify({
-        fileName: selectedFile.name,
-        status: "loading"
-      }));
-
-      window.location.href = "./upload.html";
-    });
+  if (!resourceId) {
+    readerContent.innerHTML = "<p>데이터 없음</p>";
+    return;
   }
 
-  if (fontMinus && fontPlus && fontSizeValue) {
-    fontMinus.addEventListener("click", () => {
-      if (fontSize <= 16) return;
+  fetch(`https://readflow-backend-server-904179417673.asia-northeast3.run.app/api/resources/${resourceId}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log("🔥 리딩 데이터:", data);
 
-      fontSize -= 1;
-      updateFontSize();
-    });
+      sentencesData = data.sentences || data.model_output?.sentences || [];
+      timestamps = data.timestamps || data.tts_output?.timestamps || [];
 
-    fontPlus.addEventListener("click", () => {
-      if (fontSize >= 32) return;
+      if (sentencesData.length === 0) {
+        readerContent.innerHTML = "<p>텍스트 없음</p>";
+        return;
+      }
 
-      fontSize += 1;
-      updateFontSize();
-    });
-  }
+      // =========================
+      // 본문 렌더링
+      // =========================
+      readerContent.innerHTML = sentencesData.map(s => {
+        const words = s.sentence_text.split(" ");
 
-  if (speedMinus && speedPlus && speedValue) {
-    speedMinus.addEventListener("click", () => {
-      if (readingSpeed <= 0.5) return;
+        return `
+          <p class="sentence" data-sentence="${s.sentence_index}">
+            ${words.map((word, i) => `
+              <span class="word"
+                data-sentence="${s.sentence_index}"
+                data-word="${i}">
+                ${word}
+              </span>
+            `).join(" ")}
+          </p>
+        `;
+      }).join("");
 
-      readingSpeed = Math.round((readingSpeed - 0.1) * 10) / 10;
-      updateReadingSpeed();
-      syncPlayerSpeedButton();
-    });
+      generateTOC(sentencesData);
 
-    speedPlus.addEventListener("click", () => {
-      if (readingSpeed >= 2.0) return;
-
-      readingSpeed = Math.round((readingSpeed + 0.1) * 10) / 10;
-      updateReadingSpeed();
-      syncPlayerSpeedButton();
-    });
-  }
-
-  colorButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const selectedColor = button.dataset.color;
-      const rgbaColor = hexToRgba(selectedColor, 0.25);
-
-      colorButtons.forEach(item => item.classList.remove("active"));
-      button.classList.add("active");
-
-      readerBox.style.setProperty("--highlight-color", rgbaColor);
-    });
-  });
-
-  if (playButton) {
-    playButton.addEventListener("click", () => {
-      isPlaying = !isPlaying;
-
-      playButton.textContent = isPlaying ? "Ⅱ" : "▶";
-      playButton.setAttribute("aria-label", isPlaying ? "일시정지" : "재생");
-    });
-  }
-
-  if (audioProgress) {
-    audioProgress.addEventListener("input", () => {
-      updateRangeBar(audioProgress);
-    });
-
-    updateRangeBar(audioProgress);
-  }
-
-  if (volumeRange) {
-    volumeRange.addEventListener("input", () => {
-      updateRangeBar(volumeRange);
-    });
-
-    updateRangeBar(volumeRange);
-  }
-
-  playerSpeedButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      const selectedSpeed = Number(button.dataset.speed);
-
-      readingSpeed = selectedSpeed;
-      updateReadingSpeed();
-
-      playerSpeedButtons.forEach(item => item.classList.remove("active"));
-      button.classList.add("active");
-    });
-  });
-
-  function updateFileStatus(name, status) {
-    fileName.textContent = name;
-    fileInfoBox.dataset.status = status;
-
-    if (status === "loading") {
-      uploadStatusText.textContent = "업로드 중";
-    }
-
-    if (status === "complete") {
-      uploadStatusText.textContent = "업로드 완료";
-    }
-
-    if (status === "fail") {
-      uploadStatusText.textContent = "업로드 실패";
-    }
-  }
-
-  function updateFontSize() {
-    fontSizeValue.textContent = fontSize;
-    readerBox.style.setProperty("--reader-font-size", `${fontSize}px`);
-  }
-
-  function updateReadingSpeed() {
-    const speedText = `${readingSpeed.toFixed(1)}x`;
-
-    speedValue.textContent = speedText;
-
-    if (topSpeedValue) {
-      topSpeedValue.textContent = speedText;
-    }
-  }
-
-  function syncPlayerSpeedButton() {
-    playerSpeedButtons.forEach(button => {
-      const buttonSpeed = Number(button.dataset.speed);
-
-      if (buttonSpeed === readingSpeed) {
-        button.classList.add("active");
-      } else {
-        button.classList.remove("active");
+      // 오디오
+      if (data.audio_url || data.tts_output?.audio_url) {
+        audio = new Audio(data.audio_url || data.tts_output.audio_url);
+        setupHighlight();
+        setupAudioUI();
       }
     });
+
+  // =========================
+  // 목차
+  // =========================
+  function generateTOC(sentences) {
+    if (!tocList) return;
+
+    tocList.innerHTML = "";
+
+    const groupSize = 3;
+
+    for (let i = 0; i < sentences.length; i += groupSize) {
+      const first = sentences[i];
+
+      const li = document.createElement("li");
+      li.className = "toc-item";
+      li.setAttribute("data-sentence", first.sentence_index);
+
+      li.innerHTML = `<span>${first.sentence_text.slice(0, 20)}...</span>`;
+
+      li.addEventListener("click", () => {
+        const targetTimestamp = timestamps.find(t =>
+          t.mark_name.startsWith(`w_${first.sentence_index}_0`)
+        );
+
+        if (targetTimestamp && audio) {
+          audio.currentTime = targetTimestamp.time_seconds;
+        }
+      });
+
+      tocList.appendChild(li);
+    }
   }
 
-  function updateRangeBar(rangeElement) {
-    const value = rangeElement.value;
+  // =========================
+  // 하이라이트
+  // =========================
+  function setupHighlight() {
+    if (!audio || timestamps.length === 0) return;
 
-    rangeElement.style.background = `linear-gradient(
-      to right,
-      #0067DB 0%,
-      #0067DB ${value}%,
-      #ECECEC ${value}%,
-      #ECECEC 100%
-    )`;
+    audio.addEventListener("timeupdate", () => {
+      const currentTime = audio.currentTime;
+
+      let current = null;
+
+      for (let i = 0; i < timestamps.length; i++) {
+        const t = timestamps[i];
+        const next = timestamps[i + 1];
+
+        if (
+          currentTime >= t.time_seconds &&
+          (!next || currentTime < next.time_seconds)
+        ) {
+          current = t;
+          break;
+        }
+      }
+
+      if (!current) return;
+
+      const [_, sentenceIdx, wordIdx] = current.mark_name.split("_");
+
+      document.querySelectorAll(".sentence").forEach(el =>
+        el.classList.remove("active")
+      );
+      document.querySelectorAll(".word").forEach(el =>
+        el.classList.remove("active-word")
+      );
+
+      const sentenceEl = document.querySelector(
+        `.sentence[data-sentence="${sentenceIdx}"]`
+      );
+      if (sentenceEl) sentenceEl.classList.add("active");
+
+      const wordEl = document.querySelector(
+        `.word[data-sentence="${sentenceIdx}"][data-word="${wordIdx}"]`
+      );
+      if (wordEl) wordEl.classList.add("active-word");
+    });
   }
 
-  function hexToRgba(hex, alpha) {
-    const cleanHex = hex.replace("#", "");
+  // =========================
+  // 오디오 UI
+  // =========================
+  function setupAudioUI() {
+    if (!audio) return;
 
-    const r = parseInt(cleanHex.substring(0, 2), 16);
-    const g = parseInt(cleanHex.substring(2, 4), 16);
-    const b = parseInt(cleanHex.substring(4, 6), 16);
+    audio.addEventListener("loadedmetadata", () => {
+      totalTimeEl.textContent = formatTime(audio.duration);
+    });
 
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    audio.addEventListener("timeupdate", () => {
+      const current = audio.currentTime;
+      const duration = audio.duration;
+
+      currentTimeEl.textContent = formatTime(current);
+
+      const percent = (current / duration) * 100;
+      progressBar.value = percent;
+
+      progressBar.style.background = `
+        linear-gradient(to right,
+        #0067DB 0%,
+        #0067DB ${percent}%,
+        #e0e0e0 ${percent}%,
+        #e0e0e0 100%)
+      `;
+
+      if (progressFill) {
+        progressFill.style.width = percent + "%";
+      }
+    });
+
+    volumeRange.addEventListener("input", () => {
+      const value = volumeRange.value;
+      audio.volume = value / 100;
+    });
   }
+
+  function formatTime(sec) {
+    if (!sec) return "00:00";
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+
+  // =========================
+  // 재생
+  // =========================
+  playButton?.addEventListener("click", () => {
+    if (!audio) return;
+
+    isPlaying = !isPlaying;
+
+    if (isPlaying) {
+      audio.play();
+      playButton.textContent = "Ⅱ";
+    } else {
+      audio.pause();
+      playButton.textContent = "▶";
+    }
+  });
 });
