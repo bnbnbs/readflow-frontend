@@ -15,95 +15,65 @@
   <main class="reading-page">
     <section class="reading-container">
 
-      <!-- 업로드한 파일 정보 박스 -->
+      <!-- 파일 정보 -->
       <section class="file-info-box" id="fileInfoBox" data-status="complete">
-        <img
-          src="./assets/icons/file-text.svg"
-          alt="파일 아이콘"
-          class="file-icon"
-        />
+        <img src="./assets/icons/file-text.svg" class="file-icon" />
 
         <div class="file-text-area">
           <p class="file-name" id="fileName">우주의 모든 것.pdf</p>
-
           <div class="upload-status">
             <span class="status-dot"></span>
             <span class="status-text" id="uploadStatusText">업로드 완료</span>
           </div>
         </div>
 
-        <button type="button" class="reupload-button" id="reuploadButton">
+        <button class="reupload-button" id="reuploadButton">
           다른 자료 업로드
         </button>
 
-        <input
-          type="file"
-          id="fileInput"
-          accept=".pdf,.txt,.png,.jpg,.jpeg,image/*"
-          hidden
-        />
+        <input type="file" id="fileInput" hidden />
       </section>
 
-      <!-- 읽기 전체 레이아웃 -->
+      <!-- 전체 레이아웃 -->
       <section class="reading-layout">
 
-        <!-- 왼쪽 도구 영역 -->
+        <!-- 🔥 왼쪽 패널 (목차 제거됨) -->
         <aside class="left-panel">
 
-          <!-- 목차 박스 -->
-          <section class="toc-box">
-            <h2 class="panel-title">목차</h2>
-
-            <ul class="toc-list" id="tocList">
-            </ul>
-          </section>
-
-          <!-- 학습 설정 박스 -->
+          <!-- 학습 설정 -->
           <section class="setting-box">
             <h2 class="panel-title">학습 설정</h2>
 
             <div class="setting-grid">
               <div class="setting-item">
                 <p class="setting-label">글자 크기</p>
-
                 <div class="control-box">
-                  <button type="button" id="fontMinus">-</button>
+                  <button id="fontMinus">-</button>
                   <span id="fontSizeValue">22</span>
-                  <button type="button" id="fontPlus">+</button>
-                </div>
-              </div>
-
-              <div class="setting-item">
-                <p class="setting-label">읽기 속도</p>
-
-                <div class="control-box">
-                  <button type="button" id="speedMinus">-</button>
-                  <span id="speedValue">1.0x</span>
-                  <button type="button" id="speedPlus">+</button>
+                  <button id="fontPlus">+</button>
                 </div>
               </div>
             </div>
 
             <div class="highlight-setting">
               <p class="setting-label">하이라이트 색상</p>
-
               <div class="color-panel" id="colorPanel">
-                <button type="button" class="color-circle active" data-color="#FBDE84"></button>
-                <button type="button" class="color-circle" data-color="#8FE9C9"></button>
-                <button type="button" class="color-circle" data-color="#9DDBFA"></button>
-                <button type="button" class="color-circle" data-color="#FEA3AC"></button>
-                <button type="button" class="color-circle" data-color="#B5A2DC"></button>
+                <button class="color-circle active" data-color="#FBDE84"></button>
+                <button class="color-circle" data-color="#8FE9C9"></button>
+                <button class="color-circle" data-color="#9DDBFA"></button>
+                <button class="color-circle" data-color="#FEA3AC"></button>
+                <button class="color-circle" data-color="#B5A2DC"></button>
               </div>
             </div>
           </section>
 
-          <!-- 진행률 박스 -->
+          <!-- 진행률 -->
           <section class="progress-box">
             <h2 class="panel-title">진행률</h2>
 
             <div class="progress-info">
               <span>전체 진행률</span>
-              <strong id="progressPercent">35%</strong>
+              <strong id="progressPercent">0%</strong>
             </div>
 
             <div class="progress-bar">
@@ -116,86 +86,66 @@
         <!-- 오른쪽 읽기 영역 -->
         <section class="reader-box" id="readerBox">
 
+          <!-- 상단 -->
           <div class="reader-topbar">
             <div class="reader-tabs">
-              <button type="button" class="reader-tab active">읽기</button>
-              <button type="button" class="reader-tab">요약</button>
-            </div>
-
-            <div class="reader-actions">
-              <button type="button" class="reader-option-button" id="topSpeedButton">
-                속도 <span id="topSpeedValue">1.0x</span>
-                <span>⌄</span>
-              </button>
+              <button class="reader-tab active">읽기</button>
+              <button class="reader-tab">요약</button>
             </div>
           </div>
 
+          <!-- 본문 -->
           <div class="reader-content" id="readerContent"></div>
 
-          <!-- 읽기 박스 내부 하단 재생바 -->
+          <!-- 플레이어 -->
           <section class="reader-player" id="readerPlayer">
+
             <div class="player-left">
               <div class="player-cover">
-                <img src="./assets/icons/logo-only.svg" alt="ReadFlow" />
+                <img src="./assets/icons/logo-only.svg" />
               </div>
-
               <div class="player-info">
-                <p class="player-title">우주의 시작</p>
-                <p class="player-subtitle">현재 읽는 오디오</p>
+                <p class="player-title" id="playerTitle">현재 오디오</p>
+                <p class="player-subtitle">읽는 중</p>
               </div>
             </div>
 
+            <!-- 컨트롤 -->
             <div class="player-controls">
-              <button type="button" class="player-skip-button" aria-label="이전 문장">
-                ◀
-              </button>
-
-              <button type="button" class="player-play-button" id="playButton" aria-label="재생">
-                ▶
-              </button>
-
-              <button type="button" class="player-skip-button" aria-label="다음 문장">
-                ▶
-              </button>
+              <button class="player-skip-button">◀</button>
+              <button class="player-play-button" id="playButton">▶</button>
+              <button class="player-skip-button">▶</button>
             </div>
 
+            <!-- 진행바 -->
             <div class="player-progress-area">
-              <span class="player-time" id="currentTime">01:28</span>
+              <span id="currentTime">00:00</span>
 
               <input
                 type="range"
-                class="player-progress"
                 id="audioProgress"
+                class="player-progress"
                 min="0"
                 max="100"
-                value="35"
+                value="0"
               />
 
-              <span class="player-time" id="totalTime">06:45</span>
+              <span id="totalTime">00:00</span>
             </div>
 
+            <!-- 볼륨 -->
             <div class="player-volume">
-              <img
-                src="./assets/icons/volume.svg"
-                alt="볼륨"
-                class="volume-icon"
-              />
-            
+              <img src="./assets/icons/volume.svg" />
               <input
                 type="range"
-                class="volume-range"
                 id="volumeRange"
+                class="volume-range"
                 min="0"
                 max="100"
                 value="70"
               />
             </div>
 
-            <div class="player-speed-list">
-              <button type="button" class="player-speed-button" data-speed="0.8">0.8x</button>
-              <button type="button" class="player-speed-button active" data-speed="1.0">1.0x</button>
-              <button type="button" class="player-speed-button" data-speed="1.2">1.2x</button>
-            </div>
           </section>
 
         </section>
